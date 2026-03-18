@@ -19,6 +19,7 @@ modules:
       commands:
         - npm install
         - npm run build:cf
+        - mkdir -p resources
         - npx bestzip resources/horariosflexible-ui.zip dist/*
       build-result: resources
 
