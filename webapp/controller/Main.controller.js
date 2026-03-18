@@ -268,16 +268,18 @@ sap.ui.define([
         // ============================================================
 
         _getUserId: function () {
-            try {
-                return sap.ushell.Container.getService("UserInfo").getId();
-            } catch (e) {
-                return "10000";
-            }
+            // Temporary fallback until user mapping from Launchpad is finalized.
+            return "10000";
         },
 
         _getCurrentWeekMonday: function () {
             var today = new Date();
             var day = today.getDay(); // 0=Sun, 1=Mon, ...
+            if (day === 5) {
+                var nextMonday = new Date(today);
+                nextMonday.setDate(today.getDate() + 3);
+                return this._formatDate(nextMonday);
+            }
             var diff = day === 0 ? -6 : 1 - day;
             var monday = new Date(today);
             monday.setDate(today.getDate() + diff);
