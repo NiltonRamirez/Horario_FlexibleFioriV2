@@ -40,9 +40,6 @@ resources:
       service: xsuaa
       service-plan: application
       path: ./xs-security.json
-      config:
-        xsappname: horarios-flexible-${org}-${space}
-        tenant-mode: dedicated
 
   - name: horariosflexible-destination-service
     type: org.cloudfoundry.managed-service
