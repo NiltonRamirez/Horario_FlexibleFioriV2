@@ -19,6 +19,9 @@
     }
   },
   "sap.ui5": {
+    "config": {
+      "fullWidth": true
+    },
     "rootView": {
       "viewName": "horarios.flexible.view.Main",
       "type": "XML",

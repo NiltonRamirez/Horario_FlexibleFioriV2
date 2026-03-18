@@ -12,7 +12,7 @@
         showHeader="false"
         busy="{viewModel>/busy}"
         busyIndicatorDelay="0"
-        class="sapUiContentPadding">
+        class="sapUiNoContentPadding">
 
         <customHeader>
             <Bar design="Header">
@@ -35,7 +35,7 @@
             <!-- ============================================================ -->
             <Panel
                 expandable="false"
-                class="sapUiSmallMargin sapUiSmallMarginBottom">
+                class="sapUiSmallMarginBottom">
                 <content>
                     <FlexBox
                         wrap="Wrap"
@@ -75,7 +75,7 @@
             <!-- ============================================================ -->
             <!-- WEEK NAVIGATION BAR                                           -->
             <!-- ============================================================ -->
-            <Toolbar class="sapUiSmallMarginBeginEnd sapUiSmallMarginBottom wpWeekNavToolbar">
+            <Toolbar class="sapUiSmallMarginBottom wpWeekNavToolbar">
                 <Button
                     icon="sap-icon://navigation-left-arrow"
                     press=".onPreviousWeek"
@@ -106,7 +106,7 @@
                 id="weekTable"
                 items="{viewModel>/week/days}"
                 noDataText="No hay datos para la semana seleccionada"
-                class="sapUiSmallMarginBeginEnd sapUiSmallMarginBottom"
+                class="sapUiSmallMarginBottom"
                 alternateRowColors="true"
                 fixedLayout="false">
 
@@ -246,7 +246,7 @@
             <!-- ============================================================ -->
             <!-- ACTION BUTTONS                                                -->
             <!-- ============================================================ -->
-            <Toolbar class="sapUiSmallMarginBeginEnd sapUiMediumMarginBottom">
+            <Toolbar class="sapUiMediumMarginBottom">
                 <ToolbarSpacer />
                 <Button
                     text="Limpiar"
