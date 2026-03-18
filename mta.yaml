@@ -1,6 +1,6 @@
 _schema-version: 3.1
 ID: horarios-flexible
-version: 1.0.3
+version: 1.0.4
 description: Horario Flexible Fiori - MTA deployment descriptor
 
 parameters:
@@ -84,15 +84,7 @@ resources:
         HTML5Runtime_enabled: true
         init_data:
           instance:
-            existing_destinations_policy: update
-            destinations:
-              - Name: dest_int_s
-                Type: HTTP
-                ProxyType: Internet
-                URL: https://ccb-is-dev-5v6vds1v.it-cpi034-rt.cfapps.us10-002.hana.ondemand.com
-                Authentication: NoAuthentication
-                HTML5.DynamicDestination: true
-                HTML5.ForwardAuthToken: false
+            existing_destinations_policy: ignore
 
   - name: horariosflexible-html5-repo-host
     type: org.cloudfoundry.managed-service
