@@ -1,6 +1,6 @@
 _schema-version: 3.1
 ID: horarios-flexible
-version: 1.0.5
+version: 1.0.6
 description: Horario Flexible Fiori - MTA deployment descriptor
 
 parameters:
