@@ -1,0 +1,85 @@
+_schema-version: 3.3.0
+ID: horarios-flexible
+version: 1.0.0
+description: Horario Flexible Fiori - MTA deployment descriptor
+
+parameters:
+  enable-parallel-deployments: true
+
+modules:
+  - name: horariosflexible-ui
+    type: html5
+    path: .
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      build-result: dist
+      supported-platforms: []
+
+  - name: horariosflexible-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: horariosflexible-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - horariosflexible-ui.zip
+          name: horariosflexible-ui
+          target-path: resources/
+
+  - name: horariosflexible-approuter
+    type: approuter.nodejs
+    path: approuter
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: horariosflexible-uaa
+      - name: horariosflexible-destination-service
+      - name: horariosflexible-html5-repo-runtime
+
+resources:
+  - name: horariosflexible-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: horarios-flexible-${org}-${space}
+        tenant-mode: dedicated
+
+  - name: horariosflexible-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            existing_destinations_policy: update
+            destinations:
+              - Name: dest_int_s
+                Type: HTTP
+                ProxyType: Internet
+                URL: https://ccb-is-dev-5v6vds1v.it-cpi034-rt.cfapps.us10-002.hana.ondemand.com
+                Authentication: NoAuthentication
+
+  - name: horariosflexible-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: horariosflexible-html5-repo-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime

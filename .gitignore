@@ -6,6 +6,8 @@ dist/
 build/
 coverage/
 .nyc_output/
+mta_archives/
+resources/
 
 # UI5 cache and generated artifacts
 .ui5/
