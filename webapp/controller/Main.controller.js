@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (Controller, JSONModel, MessageToast, MessageBox) {
     "use strict";
 
-    var BASE_URL = "/destinations/dest_int_s/http/workplan";
+    var BASE_URL = "/workplan";
 
     return Controller.extend("horarios.flexible.controller.Main", {
 
