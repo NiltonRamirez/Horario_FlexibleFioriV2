@@ -1,6 +1,6 @@
 _schema-version: 3.3.0
 ID: horarios-flexible
-version: 1.0.1
+version: 1.0.2
 description: Horario Flexible Fiori - MTA deployment descriptor
 
 parameters:
@@ -20,7 +20,7 @@ modules:
         - npm install
         - npm run build:cf
         - mkdir -p resources
-        - cd dist && npx bestzip ../resources/horariosflexible-ui.zip *
+        - bash -lc 'cd dist && npx bestzip ../resources/horariosflexible-ui.zip *'
       build-result: resources
 
 resources:
