@@ -5,9 +5,15 @@ const archiver = require("archiver");
 
 const distFolder = path.join(__dirname, "dist");
 const outputZip = path.join(distFolder, "horariosflexible-ui.zip");
+const xsAppPath = path.join(__dirname, "xs-app.json");
 
 if (!fs.existsSync(distFolder)) {
   console.error("Error: dist does not exist. Run build first.");
+  process.exit(1);
+}
+
+if (!fs.existsSync(xsAppPath)) {
+  console.error("Error: xs-app.json does not exist in project root.");
   process.exit(1);
 }
 
@@ -37,5 +43,7 @@ fs.readdirSync(distFolder).forEach(function (entry) {
     archive.file(fullPath, { name: entry });
   }
 });
+
+archive.file(xsAppPath, { name: "xs-app.json" });
 
 archive.finalize();
