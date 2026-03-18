@@ -33,17 +33,6 @@ modules:
           name: horariosflexible-ui
           target-path: resources/
 
-  - name: horariosflexible-approuter
-    type: approuter.nodejs
-    path: approuter
-    parameters:
-      memory: 256M
-      disk-quota: 256M
-    requires:
-      - name: horariosflexible-uaa
-      - name: horariosflexible-destination-service
-      - name: horariosflexible-html5-repo-runtime
-
 resources:
   - name: horariosflexible-uaa
     type: org.cloudfoundry.managed-service
@@ -71,15 +60,11 @@ resources:
                 ProxyType: Internet
                 URL: https://ccb-is-dev-5v6vds1v.it-cpi034-rt.cfapps.us10-002.hana.ondemand.com
                 Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: false
 
   - name: horariosflexible-html5-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-
-  - name: horariosflexible-html5-repo-runtime
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: html5-apps-repo
-      service-plan: app-runtime
