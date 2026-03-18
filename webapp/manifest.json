@@ -38,5 +38,9 @@
       "compact": true,
       "cozy": true
     }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "horariosflexible"
   }
 }
