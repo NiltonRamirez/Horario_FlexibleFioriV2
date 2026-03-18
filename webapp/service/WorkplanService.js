@@ -139,6 +139,7 @@ sap.ui.define([
 
         _callService: function (sEndpoint, sMethod, oData) {
             var sUrl = this._sBaseUrl + sEndpoint;
+            console.log("🌐 WorkplanService | " + sMethod + " " + sUrl, oData || "");
 
             if (sMethod === "POST" || sMethod === "PUT" || sMethod === "DELETE") {
                 return this._fetchCsrfToken().then(function (sToken) {
@@ -149,6 +150,7 @@ sap.ui.define([
                         headers: oHeaders,
                         body: JSON.stringify(oData)
                     }).then(function (oResponse) {
+                        console.log("📥 WorkplanService | " + sMethod + " " + sUrl + " → " + oResponse.status);
                         if (oResponse.status === 403) { this._sCsrfToken = null; }
                         return this._handleResponse(oResponse);
                     }.bind(this));
@@ -157,8 +159,9 @@ sap.ui.define([
 
             return fetch(sUrl, {
                 method: sMethod,
-                headers: { "Content-Type": "application/json" }
+                headers: { "Accept": "application/json" }
             }).then(function (oResponse) {
+                console.log("📥 WorkplanService | " + sMethod + " " + sUrl + " → " + oResponse.status);
                 return this._handleResponse(oResponse);
             }.bind(this));
         },
@@ -169,14 +172,17 @@ sap.ui.define([
                 try {
                     oData = JSON.parse(sText);
                 } catch (e) {
+                    console.error("❌ WorkplanService | Error parseando JSON:", sText.substring(0, 200));
                     return Promise.reject({ status: oResponse.status, message: "Error al parsear respuesta JSON" });
                 }
                 if (!oResponse.ok) {
+                    console.error("❌ WorkplanService | HTTP " + oResponse.status, oData);
                     return Promise.reject({
                         status: oResponse.status,
                         message: (oData && oData.message) || "Error en la solicitud"
                     });
                 }
+                console.log("✅ WorkplanService | Respuesta OK:", oData);
                 return oData;
             });
         }
