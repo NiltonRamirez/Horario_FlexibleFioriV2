@@ -1,0 +1,49 @@
+# Node dependencies
+node_modules/
+
+# Build and coverage outputs
+dist/
+build/
+coverage/
+.nyc_output/
+
+# UI5 cache and generated artifacts
+.ui5/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+
+# Archive files
+*.zip
+*.tar
+*.gz
+
+# Optional lock files (adjust if team wants to version one lock file)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
