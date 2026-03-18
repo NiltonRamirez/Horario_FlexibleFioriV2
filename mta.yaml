@@ -55,7 +55,7 @@ modules:
     parameters:
       content:
         instance:
-          existing_destinations_policy: update
+          existing_destinations_policy: ignore
           destinations:
             - Name: horariosflexible_html5_repo_host
               ServiceInstanceName: horariosflexible-html5-repo-host
