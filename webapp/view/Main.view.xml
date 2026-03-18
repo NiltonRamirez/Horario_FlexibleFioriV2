@@ -1,0 +1,269 @@
+<mvc:View
+    controllerName="horarios.flexible.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    displayBlock="true">
+
+    <Page
+        id="mainPage"
+        showHeader="false"
+        busy="{viewModel>/busy}"
+        busyIndicatorDelay="0"
+        class="sapUiContentPadding">
+
+        <customHeader>
+            <Bar design="Header">
+                <contentLeft>
+                    <Title text="Planificación Semanal" level="H3" />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        icon="sap-icon://refresh"
+                        tooltip="Recargar"
+                        press=".onRefresh" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+
+            <!-- ============================================================ -->
+            <!-- EMPLOYEE INFO PANEL                                           -->
+            <!-- ============================================================ -->
+            <Panel
+                expandable="false"
+                class="sapUiSmallMargin sapUiSmallMarginBottom">
+                <content>
+                    <FlexBox
+                        wrap="Wrap"
+                        alignItems="Start"
+                        class="sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom">
+                        <items>
+                            <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                <Label text="Colaborador" design="Bold" />
+                                <Title
+                                    text="{viewModel>/employee/name}"
+                                    level="H4"
+                                    class="sapUiTinyMarginTop" />
+                            </VBox>
+                            <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                <Label text="Área" design="Bold" />
+                                <Text
+                                    text="{viewModel>/employee/area}"
+                                    class="sapUiTinyMarginTop" />
+                            </VBox>
+                            <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                <Label text="Sede por defecto" design="Bold" />
+                                <Text
+                                    text="{viewModel>/employee/defaultLocation}"
+                                    class="sapUiTinyMarginTop" />
+                            </VBox>
+                            <VBox class="sapUiSmallMarginBottom">
+                                <Label text="País" design="Bold" />
+                                <Text
+                                    text="{viewModel>/employee/country}"
+                                    class="sapUiTinyMarginTop" />
+                            </VBox>
+                        </items>
+                    </FlexBox>
+                </content>
+            </Panel>
+
+            <!-- ============================================================ -->
+            <!-- WEEK NAVIGATION BAR                                           -->
+            <!-- ============================================================ -->
+            <Toolbar class="sapUiSmallMarginBeginEnd sapUiSmallMarginBottom wpWeekNavToolbar">
+                <Button
+                    icon="sap-icon://navigation-left-arrow"
+                    press=".onPreviousWeek"
+                    tooltip="Semana anterior"
+                    type="Transparent" />
+                <ToolbarSpacer />
+                <VBox alignItems="Center">
+                    <Title
+                        text="{path: 'viewModel>/week/weekStart', formatter: '.formatWeekRange'}"
+                        level="H5" />
+                    <ObjectStatus
+                        text="{path: 'viewModel>/week/weekStatus', formatter: '.formatWeekStatusText'}"
+                        state="{path: 'viewModel>/week/weekStatus', formatter: '.formatWeekStatusState'}"
+                        class="sapUiTinyMarginTop" />
+                </VBox>
+                <ToolbarSpacer />
+                <Button
+                    icon="sap-icon://navigation-right-arrow"
+                    press=".onNextWeek"
+                    tooltip="Siguiente semana"
+                    type="Transparent" />
+            </Toolbar>
+
+            <!-- ============================================================ -->
+            <!-- WEEK PLANNING TABLE                                           -->
+            <!-- ============================================================ -->
+            <Table
+                id="weekTable"
+                items="{viewModel>/week/days}"
+                noDataText="No hay datos para la semana seleccionada"
+                class="sapUiSmallMarginBeginEnd sapUiSmallMarginBottom"
+                alternateRowColors="true"
+                fixedLayout="false">
+
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="Detalle de la Semana" level="H5" />
+                        <ToolbarSpacer />
+                        <ObjectStatus
+                            visible="{path: 'viewModel>/week/editable', formatter: '.formatBool'}"
+                            text="Editable"
+                            state="Success"
+                            icon="sap-icon://edit" />
+                        <ObjectStatus
+                            visible="{path: 'viewModel>/week/editable', formatter: '.formatNotBool'}"
+                            text="Solo lectura"
+                            state="None"
+                            icon="sap-icon://locked" />
+                    </Toolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column width="9rem" vAlign="Middle">
+                        <Text text="Día" />
+                    </Column>
+                    <Column width="14rem" vAlign="Middle">
+                        <Text text="Modo de Trabajo" />
+                    </Column>
+                    <Column minScreenWidth="Tablet" vAlign="Middle">
+                        <Text text="Sede / Evento" />
+                    </Column>
+                    <Column minScreenWidth="Tablet" vAlign="Middle">
+                        <Text text="Horario" />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem
+                        highlight="{path: 'viewModel>locked', formatter: '.formatRowHighlight'}">
+                        <cells>
+
+                            <!-- CELL 1: Day name + date -->
+                            <VBox>
+                                <Title text="{viewModel>day}" level="H6" class="wpDayName" />
+                                <Text
+                                    text="{path: 'viewModel>date', formatter: '.formatDateDisplay'}"
+                                    class="wpDayDate sapUiTinyMarginTop" />
+                            </VBox>
+
+                            <!-- CELL 2: Work mode selector or locked status -->
+                            <FlexBox alignItems="Center">
+
+                                <!-- Editable select (shown when not locked AND week is editable) -->
+                                <Select
+                                    visible="{parts: [{path: 'viewModel>locked'}, {path: 'viewModel>editable'}], formatter: '.formatShowEditSelect'}"
+                                    selectedKey="{viewModel>workMode}"
+                                    change=".onWorkModeChange"
+                                    width="12rem">
+                                    <items>
+                                        <core:Item key="" text="-- Seleccionar --" />
+                                        <core:Item key="PRESENCIAL" text="Presencial" />
+                                        <core:Item key="TELETRABAJO" text="Teletrabajo" />
+                                    </items>
+                                </Select>
+
+                                <!-- Read-only for unlocked days in non-editable week -->
+                                <ObjectStatus
+                                    visible="{parts: [{path: 'viewModel>locked'}, {path: 'viewModel>editable'}, {path: 'viewModel>workMode'}], formatter: '.formatShowReadOnlyMode'}"
+                                    text="{path: 'viewModel>workMode', formatter: '.formatWorkModeText'}"
+                                    state="{path: 'viewModel>workMode', formatter: '.formatWorkModeState'}"
+                                    icon="{path: 'viewModel>workMode', formatter: '.formatWorkModeIcon'}" />
+
+                                <!-- Locked day (holiday/absence) -->
+                                <ObjectStatus
+                                    visible="{viewModel>locked}"
+                                    text="{parts: [{path: 'viewModel>workMode'}, {path: 'viewModel>absenceType'}], formatter: '.formatLockedStatusText'}"
+                                    state="{path: 'viewModel>workMode', formatter: '.formatLockedState'}"
+                                    icon="{path: 'viewModel>workMode', formatter: '.formatWorkModeIcon'}" />
+
+                            </FlexBox>
+
+                            <!-- CELL 3: Location (presencial) / Event name (locked) -->
+                            <FlexBox alignItems="Center">
+
+                                <!-- Location select for PRESENCIAL days (editable) -->
+                                <Select
+                                    visible="{parts: [{path: 'viewModel>workMode'}, {path: 'viewModel>locked'}, {path: 'viewModel>editable'}], formatter: '.formatShowLocationSelect'}"
+                                    selectedKey="{viewModel>location}"
+                                    width="14rem"
+                                    items="{
+                                        path: 'viewModel>/locations',
+                                        templateShareable: false
+                                    }">
+                                    <core:ListItem key="{viewModel>code}" text="{viewModel>name}" />
+                                </Select>
+
+                                <!-- Location read-only for PRESENCIAL non-editable days -->
+                                <Text
+                                    visible="{parts: [{path: 'viewModel>workMode'}, {path: 'viewModel>locked'}, {path: 'viewModel>editable'}], formatter: '.formatShowLocationReadOnly'}"
+                                    text="{parts: [{path: 'viewModel>location'}, {path: 'viewModel>/locations'}], formatter: '.formatLocationName'}" />
+
+                                <!-- Event/Absence name for locked days -->
+                                <ObjectStatus
+                                    visible="{viewModel>locked}"
+                                    text="{viewModel>absenceType}"
+                                    state="{path: 'viewModel>workMode', formatter: '.formatLockedState'}" />
+
+                            </FlexBox>
+
+                            <!-- CELL 4: Schedule -->
+                            <FlexBox alignItems="Center">
+
+                                <!-- Schedule select for working days (editable) -->
+                                <Select
+                                    visible="{parts: [{path: 'viewModel>workMode'}, {path: 'viewModel>locked'}, {path: 'viewModel>editable'}], formatter: '.formatShowScheduleSelect'}"
+                                    selectedKey="{viewModel>schedule}"
+                                    width="14rem"
+                                    items="{
+                                        path: 'viewModel>/schedules',
+                                        templateShareable: false
+                                    }">
+                                    <core:ListItem key="{viewModel>code}" text="{viewModel>name}" />
+                                </Select>
+
+                                <!-- Schedule read-only for working days non-editable -->
+                                <Text
+                                    visible="{parts: [{path: 'viewModel>workMode'}, {path: 'viewModel>locked'}, {path: 'viewModel>editable'}], formatter: '.formatShowScheduleReadOnly'}"
+                                    text="{parts: [{path: 'viewModel>schedule'}, {path: 'viewModel>/schedules'}], formatter: '.formatScheduleName'}" />
+
+                            </FlexBox>
+
+                        </cells>
+                    </ColumnListItem>
+                </items>
+
+            </Table>
+
+            <!-- ============================================================ -->
+            <!-- ACTION BUTTONS                                                -->
+            <!-- ============================================================ -->
+            <Toolbar class="sapUiSmallMarginBeginEnd sapUiMediumMarginBottom">
+                <ToolbarSpacer />
+                <Button
+                    text="Limpiar"
+                    press=".onClear"
+                    enabled="{viewModel>/week/editable}"
+                    type="Default"
+                    icon="sap-icon://eraser" />
+                <Button
+                    text="Guardar Semana"
+                    press=".onSave"
+                    enabled="{viewModel>/week/editable}"
+                    type="Emphasized"
+                    icon="sap-icon://save" />
+            </Toolbar>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

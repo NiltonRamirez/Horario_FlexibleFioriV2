@@ -1,0 +1,18 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/workplan/(.*)",
+      "target": "/http/workplan/$1",
+      "destination": "dest_int_s",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}
