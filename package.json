@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "description": "Planificación Semanal - SAP Fiori Application",
   "scripts": {
-    "start": "ui5 serve",
+    "start": "ui5 serve --port 8080 --open index.html",
     "build": "ui5 build --clean-dest --dest dist",
     "build:cf": "ui5 build --clean-dest --dest dist",
     "build:mta": "ui5 build --clean-dest --dest dist && node create-zip.js"
   },
   "devDependencies": {
-    "@ui5/cli": "^3.9.0",
-    "archiver": "^7.0.1",
-    "ui5-middleware-cfdestination": "^3.3.11"
+    "@ui5/cli": "^3.0.0",
+    "@sap/ux-ui5-tooling": "^1.0.0",
+    "archiver": "^7.0.0"
+  },
+  "ui5": {
+    "dependencies": [
+      "@sap/ux-ui5-tooling"
+    ]
   }
 }

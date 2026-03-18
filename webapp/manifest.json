@@ -8,7 +8,13 @@
       "version": "1.0.7"
     },
     "title": "{{appTitle}}",
-    "description": "{{appDescription}}"
+    "description": "{{appDescription}}",
+    "dataSources": {
+      "workplanService": {
+        "uri": "/destinations/dest_int_s/http/workplan",
+        "type": "JSON"
+      }
+    }
   },
   "sap.ui": {
     "technology": "UI5",
