@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ui5 serve",
     "build": "ui5 build --all",
-    "build:cf": "ui5 build --all --clean-dest --dest dist"
+    "build:cf": "ui5 build --clean-dest --dest dist"
   },
   "devDependencies": {
     "@ui5/cli": "^3.9.0",
