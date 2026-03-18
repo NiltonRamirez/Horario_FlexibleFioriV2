@@ -24,6 +24,9 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
+# Local BTP destination config (contains credentials - NEVER commit)
+default-env.json
+
 # OS files
 .DS_Store
 Thumbs.db

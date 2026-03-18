@@ -3,8 +3,8 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/workplan/(.*)$",
-      "target": "/http/workplan/$1",
+      "source": "^/destinations/dest_int_s/(.*)$",
+      "target": "/destinations/dest_int_s/$1",
       "destination": "dest_int_s",
       "authenticationType": "xsuaa",
       "csrfProtection": false

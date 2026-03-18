@@ -6,7 +6,8 @@
   },
   "routes": [
     {
-      "source": "^/workplan/(.*)$",
+      "source": "^/destinations/dest_int_s/(.*)$",
+      "target": "/destinations/dest_int_s/$1",
       "destination": "dest_int_s",
       "authenticationType": "xsuaa",
       "csrfProtection": false
