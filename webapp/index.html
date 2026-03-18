@@ -4,22 +4,31 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Planificación Semanal</title>
+    <style>
+        html, body, #content {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
     <script id="sap-ui-bootstrap"
         src="https://ui5.sap.com/1.120/resources/sap-ui-core.js"
         data-sap-ui-theme="sap_horizon"
         data-sap-ui-resourceroots='{"horarios.flexible": "./"}'
         data-sap-ui-compatVersion="edge"
         data-sap-ui-async="true"
-        data-sap-ui-frameOptions="trusted"
-        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport">
+        data-sap-ui-frameOptions="trusted">
+    </script>
+    <script>
+        sap.ui.getCore().attachInit(function () {
+            new sap.ui.core.ComponentContainer({
+                name: "horarios.flexible",
+                manifest: true,
+                height: "100%"
+            }).placeAt("content");
+        });
     </script>
 </head>
-<body class="sapUiBody" id="content">
-    <div data-sap-ui-component
-         data-name="horarios.flexible"
-         data-id="container"
-         data-settings='{"id" : "horarios.flexible"}'
-         style="height: 100%">
-    </div>
+<body class="sapUiBody" id="appBody">
+    <div id="content" style="height:100%"></div>
 </body>
 </html>
