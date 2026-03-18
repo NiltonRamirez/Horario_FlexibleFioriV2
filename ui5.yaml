@@ -27,7 +27,7 @@ server:
           url: https://ui5.sap.com
         backend:
           - path: /destinations
-            url: https://355b165ctrial.us10cf.trial.applicationstudio.cloud.sap
+            url: https://b5455c52trial.us10cf.trial.applicationstudio.cloud.sap
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
