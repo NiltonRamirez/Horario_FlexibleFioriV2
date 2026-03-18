@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@ui5/cli": "^3.9.0",
+    "bestzip": "^2.2.1",
     "ui5-middleware-cfdestination": "^3.3.11"
   }
 }

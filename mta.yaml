@@ -7,17 +7,6 @@ parameters:
   enable-parallel-deployments: true
 
 modules:
-  - name: horariosflexible-ui
-    type: html5
-    path: .
-    build-parameters:
-      builder: custom
-      commands:
-        - npm install
-        - npm run build:cf
-      build-result: dist
-      supported-platforms: []
-
   - name: horariosflexible-content
     type: com.sap.application.content
     path: .
@@ -26,12 +15,12 @@ modules:
         parameters:
           content-target: true
     build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+        - npx bestzip resources/horariosflexible-ui.zip dist/*
       build-result: resources
-      requires:
-        - artifacts:
-            - horariosflexible-ui.zip
-          name: horariosflexible-ui
-          target-path: resources/
 
 resources:
   - name: horariosflexible-uaa
