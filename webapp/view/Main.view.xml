@@ -3,10 +3,10 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:l="sap.ui.layout"
-    xmlns:f="sap.ui.layout.form"
     displayBlock="true">
 
+<App>
+    <pages>
     <Page
         id="mainPage"
         showHeader="false"
@@ -265,5 +265,7 @@
         </content>
 
     </Page>
+    </pages>
+</App>
 
 </mvc:View>
