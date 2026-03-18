@@ -1,12 +1,26 @@
-_schema-version: 3.3.0
+_schema-version: 3.1
 ID: horarios-flexible
-version: 1.0.2
+version: 1.0.3
 description: Horario Flexible Fiori - MTA deployment descriptor
 
 parameters:
   enable-parallel-deployments: true
+  deploy_mode: html5-repo
 
 modules:
+  - name: horariosflexible-ui
+    type: html5
+    path: .
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:mta
+      supported-platforms: []
+      build-result: dist
+    properties:
+      SAP_CLOUD_SERVICE: horariosflexible
+
   - name: horariosflexible-content
     type: com.sap.application.content
     path: .
@@ -15,13 +29,43 @@ modules:
         parameters:
           content-target: true
     build-parameters:
-      builder: custom
-      commands:
-        - npm install
-        - npm run build:cf
-        - mkdir -p resources
-        - bash -lc 'cd dist && npx bestzip ../resources/horariosflexible-ui.zip *'
       build-result: resources
+      requires:
+        - artifacts:
+            - horariosflexible-ui.zip
+          name: horariosflexible-ui
+          target-path: resources/
+
+  - name: horariosflexible-destination-content
+    type: com.sap.application.content
+    build-parameters:
+      no-source: true
+    requires:
+      - name: horariosflexible-destination-service
+        parameters:
+          content-target: true
+      - name: horariosflexible-html5-repo-host
+        parameters:
+          service-key:
+            name: horariosflexible-html5-repo-host-key
+      - name: horariosflexible-uaa
+        parameters:
+          service-key:
+            name: horariosflexible-uaa-key
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: horariosflexible_html5_repo_host
+              ServiceInstanceName: horariosflexible-html5-repo-host
+              ServiceKeyName: horariosflexible-html5-repo-host-key
+              sap.cloud.service: horariosflexible
+            - Name: horariosflexible_xsuaa
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: horariosflexible-uaa
+              ServiceKeyName: horariosflexible-uaa-key
+              sap.cloud.service: horariosflexible
 
 resources:
   - name: horariosflexible-uaa
