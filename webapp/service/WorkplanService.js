@@ -87,6 +87,26 @@ sap.ui.define([
         },
 
         // ============================================================
+        // USER RESOLUTION BY EMAIL
+        // ============================================================
+
+        /**
+         * Resuelve el employeeId a partir del email corporativo del usuario.
+         * Endpoint: GET /http/api/v1/users/by-email?email={email}
+         *
+         * Respuesta OK  → { status: "success", data: { employeeId, email, sourceSystem } }
+         * Múltiples     → { status: "error",   error: { code: "MULTIPLE_USERS", message } }
+         * HTTP 401      → reject con { status: 401, ... } (usuario no en base de colaboradores)
+         */
+        getUserByEmail: function (sEmail) {
+            return this._callService(
+                "/http/api/v1/users/by-email?email=" + encodeURIComponent(sEmail),
+                "GET",
+                null
+            );
+        },
+
+        // ============================================================
         // WORKPLAN ENDPOINTS
         // ============================================================
 

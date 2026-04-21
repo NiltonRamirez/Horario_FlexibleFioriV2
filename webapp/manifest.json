@@ -4,6 +4,19 @@
     "id": "horarios.flexible",
     "type": "application",
     "i18n": "i18n/i18n.properties",
+    "crossNavigation": {
+      "inbounds": {
+        "week-show": {
+          "semanticObject": "week",
+          "action": "show",
+          "title": "{{week-show.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    },
     "applicationVersion": {
       "version": "1.0.7"
     },
