@@ -28,6 +28,9 @@ server:
         backend:
           - path: /destinations
             url: https://b5455c52trial.us10cf.trial.applicationstudio.cloud.sap
+          - path: /http
+            url: https://b5455c52trial.us10cf.trial.applicationstudio.cloud.sap
+            pathPrefix: /destinations/dest_int_s
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
