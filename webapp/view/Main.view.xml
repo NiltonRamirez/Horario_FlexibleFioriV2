@@ -75,19 +75,22 @@
             <!-- ============================================================ -->
             <!-- WEEK BANNER                                                    -->
             <!-- ============================================================ -->
-            <Toolbar class="sapUiSmallMarginBottom wpWeekNavToolbar">
-                <ToolbarSpacer />
-                <VBox alignItems="Center">
-                    <Title
-                        text="{path: 'viewModel>/currentWeekStart', formatter: '.formatWeekRange'}"
-                        level="H5" />
-                    <ObjectStatus
-                        text="{path: 'viewModel>/week/weekStatus', formatter: '.formatWeekStatusText'}"
-                        state="{path: 'viewModel>/week/weekStatus', formatter: '.formatWeekStatusState'}"
-                        class="sapUiTinyMarginTop" />
-                </VBox>
-                <ToolbarSpacer />
-            </Toolbar>
+            <FlexBox
+                justifyContent="Center"
+                alignItems="Center"
+                class="sapUiSmallMarginBottom wpWeekBanner">
+                <items>
+                    <VBox alignItems="Center">
+                        <Title
+                            text="{path: 'viewModel>/currentWeekStart', formatter: '.formatWeekRange'}"
+                            level="H5" />
+                        <ObjectStatus
+                            text="{path: 'viewModel>/week/weekStatus', formatter: '.formatWeekStatusText'}"
+                            state="{path: 'viewModel>/week/weekStatus', formatter: '.formatWeekStatusState'}"
+                            class="sapUiTinyMarginTop" />
+                    </VBox>
+                </items>
+            </FlexBox>
 
             <!-- ============================================================ -->
             <!-- WEEK PLANNING TABLE                                           -->
