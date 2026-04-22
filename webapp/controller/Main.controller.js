@@ -23,25 +23,26 @@ sap.ui.define([
             });
             this.getView().setModel(oViewModel, "viewModel");
 
-            var oAppModel = this.getOwnerComponent().getModel("app");
-            var that = this;
-
-            var fnWaitForUser = function () {
-                var sId  = oAppModel.getProperty("/userId");
-                var sErr = oAppModel.getProperty("/errorMsg");
-                if (sId) {
-                    oAppModel.detachPropertyChange(fnWaitForUser);
-                    that._loadInitialData();
-                } else if (sErr) {
-                    oAppModel.detachPropertyChange(fnWaitForUser);
-                }
-            };
-
-            if (oAppModel.getProperty("/userId")) {
+            if (this.getOwnerComponent().getModel("app").getProperty("/userId")) {
                 this._loadInitialData();
             } else {
-                oAppModel.attachPropertyChange(fnWaitForUser);
+                sap.ui.core.EventBus.getInstance().subscribe(
+                    "HorariosApp", "UserResolved", this._onUserResolved, this
+                );
             }
+        },
+
+        onExit: function () {
+            sap.ui.core.EventBus.getInstance().unsubscribe(
+                "HorariosApp", "UserResolved", this._onUserResolved, this
+            );
+        },
+
+        _onUserResolved: function () {
+            sap.ui.core.EventBus.getInstance().unsubscribe(
+                "HorariosApp", "UserResolved", this._onUserResolved, this
+            );
+            this._loadInitialData();
         },
 
         // ============================================================

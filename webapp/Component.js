@@ -69,6 +69,7 @@ sap.ui.define([
                             console.log("✅ Component | employeeId resuelto:", sId);
                             oAppModel.setProperty("/userId", sId);
                             oAppModel.setProperty("/userEmail", oResponse.data.email || oAppModel.getProperty("/userEmail"));
+                            sap.ui.core.EventBus.getInstance().publish("HorariosApp", "UserResolved", { userId: sId });
                         } else if (oResponse && oResponse.status === "error") {
                             var oErr = oResponse.error || {};
                             var sMsg = oErr.code === "MULTIPLE_USERS"

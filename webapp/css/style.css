@@ -16,6 +16,13 @@
     border-bottom: 1px solid #e5e5e5;
 }
 
+.wpWeekNavToolbar .sapMTitle {
+    max-width: none;
+    white-space: normal;
+    overflow: visible;
+    text-align: center;
+}
+
 .wpDayName {
     font-weight: bold;
     font-size: 0.875rem;
