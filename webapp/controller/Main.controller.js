@@ -22,7 +22,26 @@ sap.ui.define([
                 currentWeekStart: this._getCurrentWeekMonday()
             });
             this.getView().setModel(oViewModel, "viewModel");
-            this._loadInitialData();
+
+            var oAppModel = this.getOwnerComponent().getModel("app");
+            var that = this;
+
+            var fnWaitForUser = function () {
+                var sId  = oAppModel.getProperty("/userId");
+                var sErr = oAppModel.getProperty("/errorMsg");
+                if (sId) {
+                    oAppModel.detachPropertyChange(fnWaitForUser);
+                    that._loadInitialData();
+                } else if (sErr) {
+                    oAppModel.detachPropertyChange(fnWaitForUser);
+                }
+            };
+
+            if (oAppModel.getProperty("/userId")) {
+                this._loadInitialData();
+            } else {
+                oAppModel.attachPropertyChange(fnWaitForUser);
+            }
         },
 
         // ============================================================
@@ -34,12 +53,7 @@ sap.ui.define([
         },
 
         _getUserId: function () {
-            var oComponent = this.getOwnerComponent();
-            if (oComponent) {
-                var sId = oComponent.getModel("app").getProperty("/userId");
-                if (sId) { return sId; }
-            }
-            return "10000";
+            return this.getOwnerComponent().getModel("app").getProperty("/userId") || "";
         },
 
         _loadInitialData: function () {
@@ -87,32 +101,6 @@ sap.ui.define([
             this._loadInitialData();
         },
 
-        // ============================================================
-        // WEEK NAVIGATION
-        // ============================================================
-
-        onPreviousWeek: function () { this._navigateWeek(-7); },
-        onNextWeek:     function () { this._navigateWeek(7);  },
-
-        _navigateWeek: function (nDays) {
-            var oModel  = this.getView().getModel("viewModel");
-            var oDate   = new Date(oModel.getProperty("/currentWeekStart") + "T00:00:00");
-            oDate.setDate(oDate.getDate() + nDays);
-            var sNewStart = this._formatDate(oDate);
-
-            oModel.setProperty("/currentWeekStart", sNewStart);
-            oModel.setProperty("/busy", true);
-
-            this._getService().getWeekContext(this._getUserId(), sNewStart)
-                .then(function (oWeekData) {
-                    this._setWeekData(oWeekData);
-                    oModel.setProperty("/busy", false);
-                }.bind(this))
-                .catch(function (oError) {
-                    oModel.setProperty("/busy", false);
-                    MessageBox.error("Error al cargar la semana: " + (oError.message || String(oError)));
-                });
-        },
 
         // ============================================================
         // USER INTERACTIONS

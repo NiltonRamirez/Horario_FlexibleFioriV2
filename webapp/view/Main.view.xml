@@ -73,18 +73,13 @@
             </Panel>
 
             <!-- ============================================================ -->
-            <!-- WEEK NAVIGATION BAR                                           -->
+            <!-- WEEK BANNER                                                    -->
             <!-- ============================================================ -->
             <Toolbar class="sapUiSmallMarginBottom wpWeekNavToolbar">
-                <Button
-                    icon="sap-icon://navigation-left-arrow"
-                    press=".onPreviousWeek"
-                    tooltip="Semana anterior"
-                    type="Transparent" />
                 <ToolbarSpacer />
                 <VBox alignItems="Center">
                     <Title
-                        text="{path: 'viewModel>/week/weekStart', formatter: '.formatWeekRange'}"
+                        text="{path: 'viewModel>/currentWeekStart', formatter: '.formatWeekRange'}"
                         level="H5" />
                     <ObjectStatus
                         text="{path: 'viewModel>/week/weekStatus', formatter: '.formatWeekStatusText'}"
@@ -92,11 +87,6 @@
                         class="sapUiTinyMarginTop" />
                 </VBox>
                 <ToolbarSpacer />
-                <Button
-                    icon="sap-icon://navigation-right-arrow"
-                    press=".onNextWeek"
-                    tooltip="Siguiente semana"
-                    type="Transparent" />
             </Toolbar>
 
             <!-- ============================================================ -->
