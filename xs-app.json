@@ -6,8 +6,8 @@
   },
   "routes": [
     {
-      "source": "^/destinations/dest_int_s/(.*)$",
-      "target": "/$1",
+      "source": "^/http/(.*)$",
+      "target": "/http/$1",
       "destination": "dest_int_s",
       "authenticationType": "xsuaa",
       "csrfProtection": false

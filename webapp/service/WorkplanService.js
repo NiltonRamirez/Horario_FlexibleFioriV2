@@ -6,7 +6,7 @@ sap.ui.define([
     return BaseObject.extend("horarios.flexible.service.WorkplanService", {
 
         constructor: function () {
-            this._sBaseUrl = "/destinations/dest_int_s";
+            this._sBaseUrl = "";
             this._sCsrfToken = null;
             this._oUserInfo = null;
         },
