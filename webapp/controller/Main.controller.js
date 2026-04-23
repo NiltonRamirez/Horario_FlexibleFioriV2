@@ -70,8 +70,13 @@ sap.ui.define([
                 oService.getSchedules(sUserId)
             ]).then(function (aResults) {
                 oModel.setProperty("/employee", aResults[0].d);
-                oModel.setProperty("/locations", aResults[1].locations || []);
+
+                var aLocations = aResults[1].locations || [];
+                aLocations.unshift({ code: "", name: "-- Seleccionar --" });
+                oModel.setProperty("/locations", aLocations);
+
                 var aSchedules = (aResults[2].schedules && aResults[2].schedules.element) || [];
+                aSchedules.unshift({ code: "", name: "-- Seleccionar --" });
                 oModel.setProperty("/schedules", aSchedules);
 
                 var sWeekStart = oModel.getProperty("/currentWeekStart");
@@ -87,8 +92,13 @@ sap.ui.define([
 
         _setWeekData: function (oWeekData) {
             var oModel = this.getView().getModel("viewModel");
+            // SAVED weeks are read-only — user cannot modify or clear
+            if (oWeekData.weekStatus === "SAVED") {
+                oWeekData.editable = false;
+            }
             oWeekData.days = (oWeekData.days || []).map(function (oDay) {
                 oDay.editable    = oWeekData.editable === true;
+                oDay.locked      = oDay.locked || oDay.isHoliday || oDay.isAbsent || false;
                 oDay.workMode    = oDay.workMode    || "";
                 oDay.location    = oDay.location    || "";
                 oDay.schedule    = oDay.schedule    || "";
