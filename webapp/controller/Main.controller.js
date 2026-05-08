@@ -92,10 +92,6 @@ sap.ui.define([
 
         _setWeekData: function (oWeekData) {
             var oModel = this.getView().getModel("viewModel");
-            // SAVED weeks are read-only — user cannot modify or clear
-            if (oWeekData.weekStatus === "SAVED") {
-                oWeekData.editable = false;
-            }
             oWeekData.days = (oWeekData.days || []).map(function (oDay) {
                 oDay.editable    = oWeekData.editable === true;
                 oDay.locked      = oDay.locked || oDay.isHoliday || oDay.isAbsent || false;
